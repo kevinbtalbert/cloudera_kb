@@ -30,9 +30,14 @@ config.read('cloudera_kb_config.conf')
 from bs4 import BeautifulSoup
 import re
 import os
+import requests
+from requests.exceptions import ConnectionError
+import time
 from urllib.parse import urlparse, urljoin
 
 visited_urls = set()
+max_retries = 5
+retry_delay_seconds = 2
 
 def get_tld(url):
     parsed_url = urlparse(url)
@@ -50,7 +55,26 @@ def extract_and_write_text(url, base_path, tld):
         return
     visited_urls.add(url)
     
-    response = requests.get(url)
+    for attempt in range(1, max_retries + 1):
+        try:
+            # Your API call or any HTTP request
+            response = requests.get(url)
+            
+            # If status code is good (e.g., 200), break the loop
+            if response.status_code == 200:
+                break
+
+        except ConnectionError as e:
+            print(f"Request attempt {attempt} failed with error: {e}")
+            
+            # If reached max retries, raise the exception to handle it elsewhere
+            if attempt == max_retries:
+                raise e
+            
+            # Sleep for a while before retrying
+            print(f"Retrying in {retry_delay_seconds} seconds...")
+            time.sleep(retry_delay_seconds)
+            
     soup = BeautifulSoup(response.content, 'html.parser')
 
     main_content = soup.find('main')
@@ -65,18 +89,7 @@ def extract_and_write_text(url, base_path, tld):
         
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(soup.get_text())
-            # for tag in main_content.find_all(True):
-            #     if tag.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span']:
-            #         f.write(tag.get_text() + '\n')
-            #     elif tag.name == 'table':
-            #         for row in tag.find_all('tr'):
-            #             row_data = [cell.get_text().strip() for cell in row.find_all(['td', 'th'])]
-            #             f.write('\t'.join(row_data) + '\n')
-            #         f.write('\n')
-            #     elif tag.name in ['ol', 'ul']:
-            #         for li in tag.find_all('li'):
-            #             f.write(f'  - {li.get_text()}\n')
-        
+
         # Recursive call for additional URLs within <main>
         for a_tag in main_content.find_all('a', href=True):
             new_url = urljoin(url, a_tag['href'])
