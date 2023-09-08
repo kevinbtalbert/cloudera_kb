@@ -31,8 +31,8 @@ download_lfs_files $EMBDEDDING_MODEL_COMMIT
 cd ..
   
 # Downloading LLM model that has been fine tuned to handle instructions/q&a
-GIT_LFS_SKIP_SMUDGE=1 git clone ${LLM_MODEL_REPO} --branch main llm-model
-cd llm-model
-git checkout ${LLM_MODEL_COMMIT}
-download_lfs_files $LLM_MODEL_COMMIT
-cd ..
+# GIT_LFS_SKIP_SMUDGE=1 git clone ${LLM_MODEL_REPO} --branch main llm-model
+# cd llm-model
+# git checkout ${LLM_MODEL_COMMIT}
+# download_lfs_files $LLM_MODEL_COMMIT
+# cd ..

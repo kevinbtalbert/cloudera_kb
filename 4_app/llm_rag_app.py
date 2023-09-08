@@ -104,10 +104,7 @@ def get_nearest_chunk_from_vectordb(vector_db_collection, question):
         output_fields=['relativefilepath'], # The fields you want to retrieve from the search result.
         consistency_level="Strong"
     )
-    # print(nearest_vectors)
-    # # Print the file path of the kb chunk
-    # print(nearest_vectors[0].ids[0])
-    
+
     # Return text of the nearest knowledgebase chunk
     response = ""
     for f in nearest_vectors[0]:
