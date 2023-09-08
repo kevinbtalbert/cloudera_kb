@@ -32,6 +32,7 @@ import re
 import os
 import requests
 from requests.exceptions import ConnectionError
+from requests import exceptions
 import time
 from urllib.parse import urlparse, urljoin
 
@@ -58,18 +59,16 @@ def extract_and_write_text(url, base_path, tld):
     for attempt in range(1, max_retries + 1):
         try:
             # Your API call or any HTTP request
+            print(url)
             response = requests.get(url)
             
             # If status code is good (e.g., 200), break the loop
             if response.status_code == 200:
                 break
 
-        except ConnectionError as e:
-            print(f"Request attempt {attempt} failed with error: {e}")
-            
-            # If reached max retries, raise the exception to handle it elsewhere
-            if attempt == max_retries:
-                raise e
+        except:
+            print(f"Request attempt {attempt} failed with connection error.")
+    
             
             # Sleep for a while before retrying
             print(f"Retrying in {retry_delay_seconds} seconds...")
@@ -80,20 +79,19 @@ def extract_and_write_text(url, base_path, tld):
     main_content = soup.find('main')
 
     if url.endswith('.html'):
-            url = url[:-5]
+        url = url[:-5]
 
     directory_path, file_path = create_directory_path_from_url(base_path, url)
     
-    if main_content:
-        os.makedirs(directory_path, exist_ok=True)
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(soup.get_text())
+    os.makedirs(directory_path, exist_ok=True)
+    
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(soup.get_text())
 
-        # Recursive call for additional URLs within <main>
-        for a_tag in main_content.find_all('a', href=True):
-            new_url = urljoin(url, a_tag['href'])
-            extract_and_write_text(new_url, base_path, tld)
+        # # Recursive call for additional URLs within <main>
+        # for a_tag in main_content.find_all('a', href=True):
+        #     new_url = urljoin(url, a_tag['href'])
+        #     extract_and_write_text(new_url, base_path, tld)
 
 def main():
     base_path = "./data/2_website_contents"
