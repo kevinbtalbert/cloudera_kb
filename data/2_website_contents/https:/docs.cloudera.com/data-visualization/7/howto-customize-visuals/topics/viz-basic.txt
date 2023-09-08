@@ -1,4 +1,0 @@
-Customizing basic visual settingsCloudera Docs
-Customizing basic visual settings
-
-Changing the bucket countShowing normalized histogramsUsing the cumulative optionParent topic: Customizing visual settings

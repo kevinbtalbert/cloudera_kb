@@ -1,6 +1,0 @@
-Backup LogsearchCloudera Docs
-Backup Logsearch
-With the backup of Ambari-Infra, Logsearch is also backed up by default.
-
-
-Parent topic: Backup HDP Cluster

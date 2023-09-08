@@ -52,7 +52,7 @@ def main():
 
     # Read KB documents in ./data/2_website_contents directory and insert embeddings into Vector DB for each doc
     # The default embeddings generation model specified in this AMP only generates embeddings for the first 256 tokens of text.
-    doc_dir = './data/2_website_contents'
+    doc_dir = './data'
     for file in Path(doc_dir).glob(f'**/*.txt'):
         with open(file, "r") as f: # Open file in read mode
             print("Generating embeddings for: %s" % file.name)

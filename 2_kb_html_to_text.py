@@ -59,7 +59,6 @@ def extract_and_write_text(url, base_path, tld):
     for attempt in range(1, max_retries + 1):
         try:
             # Your API call or any HTTP request
-            print(url)
             response = requests.get(url)
             
             # If status code is good (e.g., 200), break the loop

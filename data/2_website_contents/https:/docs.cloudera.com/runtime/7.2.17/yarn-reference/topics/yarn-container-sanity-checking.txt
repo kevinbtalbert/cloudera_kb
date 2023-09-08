@@ -1,8 +1,0 @@
-Step 6B: Container parameters checkingCloudera Docs
-Step 6B: Container parameters checking
-See whether you have over-allocated resources.
-
- 
-
-
-Parent topic: Tuning Apache Hadoop YARN

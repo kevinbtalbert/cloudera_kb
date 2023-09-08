@@ -1,6 +1,0 @@
-InstallationCloudera Docs
-Installation
-
-
-
-Installing from PackagesInstall SRM from packages.Installing from ZIP or TAR ArchivesInstall SRM from ZIP or TAR archives.

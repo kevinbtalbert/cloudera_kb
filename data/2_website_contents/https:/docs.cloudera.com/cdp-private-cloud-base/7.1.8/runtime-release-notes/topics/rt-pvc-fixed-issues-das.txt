@@ -1,5 +1,0 @@
-Fixed issues in Data Analytics StudioCloudera Docs
-Fixed issues in Data Analytics Studio
-There are no fixed issues for Data Analytics Studio in Cloudera Runtime
-    7.1.8.
-Parent topic: Fixed issues in Cloudera Runtime 7.1.8
